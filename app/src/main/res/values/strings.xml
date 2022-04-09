@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MetaWeather</string>
+    <string name="location_search_query">Enter the name of a location</string>
+    <string name="unexpected_error">Unexpected error: %s</string>
 </resources>

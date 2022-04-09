@@ -1,14 +1,17 @@
-package com.demo.metaweather
+package com.demo.metaweather.screens
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.demo.metaweather.R
 import com.demo.metaweather.utils.SPLASH_SECONDS
 import com.demo.metaweather.utils.showSplash
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class WeatherExplorerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        showSplash(TimeUnit.SECONDS.toMillis(SPLASH_SECONDS))
+        showSplash(savedInstanceState, TimeUnit.SECONDS.toMillis(SPLASH_SECONDS))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
