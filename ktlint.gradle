@@ -1,0 +1,40 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint "com.pinterest:ktlint:0.37.0"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt"
+}
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style problems."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt"
+}
+
+task installPrepushHook(type: Copy) {
+    def suffix = "macos"
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        suffix = "windows"
+    }
+    from new File(rootProject.rootDir, "scripts/ktlint_prepush_$suffix")
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    rename("ktlint_prepush_$suffix", 'pre-push')
+    fileMode 0775
+}
+
+tasks.getByName('preBuild').dependsOn installPrepushHook

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Running ktlint check..."
+
+./gradlew app:ktlint mvi:ktlint --daemon
+
+status=$?
+
+if [ $status -ne 0 ] ; then
+  echo 1>&2 "** There are problems with the code formatting"
+  exit 1
+else
+  echo "Code formatting looks good"
+  exit 0
+fi
