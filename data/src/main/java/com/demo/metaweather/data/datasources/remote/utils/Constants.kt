@@ -6,6 +6,6 @@ object Constants {
 
     const val WEATHER_SERVER_BASE_URL = "https://www.metaweather.com/api/"
 
-    const val LOCATION_WEATHER = "location/$WHERE_ON_EARTH_ID"
+    const val LOCATION_WEATHER = "location/{$WHERE_ON_EARTH_ID}"
     const val LOCATION_SEARCH = "location/search/"
 }

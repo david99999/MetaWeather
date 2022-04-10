@@ -6,4 +6,6 @@
     <string name="no_results">No results for your search criteria</string>
     <string name="search_locations_title">Search Locations</string>
     <string name="location_details_title">Location Details</string>
+    <string name="weather_icon_description">Weather Icon</string>
+    <string name="temperature_range">Min %1$.2f°C - Max %2$.2f°C</string>
 </resources>

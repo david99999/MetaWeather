@@ -7,8 +7,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ConsolidatedWeatherDTO(
 
-    @SerialName("id") val id: Int? = null,
-
     @SerialName("weather_state_name") val weatherStateName: String? = null,
 
     @SerialName("weather_state_abbr") val weatherStateAbbr: String? = null,
@@ -29,12 +27,12 @@ data class ConsolidatedWeatherDTO(
 
     @SerialName("wind_direction") val windDirection: Double? = null,
 
-    @SerialName("air_pressure") val airPressure: Int? = null,
+    @SerialName("air_pressure") val airPressure: Double? = null,
 
-    @SerialName("humidity") val humidity: Int? = null,
+    @SerialName("humidity") val humidity: Double? = null,
 
     @SerialName("visibility") val visibility: Double? = null,
 
-    @SerialName("predictability") val predictability: Int? = null
+    @SerialName("predictability") val predictability: Double? = null
 
 )
