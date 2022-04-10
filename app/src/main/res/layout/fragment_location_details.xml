@@ -20,12 +20,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/locationNameAndParent"
-                android:layout_width="match_parent"
                 style="@style/Text_XL"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,31 +34,24 @@
 
             <TextView
                 android:id="@+id/locationTemperature"
-                android:layout_width="match_parent"
                 style="@style/Text_XXL_BOLD"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locationNameAndParent" />
 
             <TextView
-                android:id="@+id/locationWeatherDate"
-                android:layout_width="match_parent"
-                style="@style/Text_L"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/locationTemperature" />
-
-            <TextView
                 android:id="@+id/locationStateName"
-                android:layout_width="0dp"
                 style="@style/Text_L_BOLD"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/weatherIcon"
                 app:layout_constraintEnd_toStartOf="@+id/weatherIcon"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/locationWeatherDate" />
+                app:layout_constraintTop_toTopOf="@+id/weatherIcon" />
 
             <ImageView
                 android:id="@+id/weatherIcon"
@@ -66,18 +60,27 @@
                 android:contentDescription="@string/weather_icon_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/locationStateName"
-                app:layout_constraintTop_toBottomOf="@+id/locationWeatherDate" />
+                app:layout_constraintTop_toBottomOf="@+id/locationTemperature" />
 
 
             <TextView
                 android:id="@+id/weatherTempRange"
+                style="@style/Text_L_BOLD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Text_L_BOLD"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
                 tools:text="@string/temperature_range" />
+
+            <TextView
+                android:id="@+id/locationWeatherDate"
+                style="@style/Text_L"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weatherTempRange" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/locationForecastRecycler"
@@ -85,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/weatherTempRange" />
+                app:layout_constraintTop_toBottomOf="@+id/locationWeatherDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
