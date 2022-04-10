@@ -2,13 +2,38 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_location_search">
+    app:startDestination="@+id/navigationLocationSearch">
 
     <fragment
-        android:id="@+id/navigation_location_search"
-        android:name="com.demo.metaweather.screens.search.LocationSearchFragment"/>
+        android:id="@+id/navigationLocationSearch"
+        android:name="com.demo.metaweather.screens.search.LocationSearchFragment"
+        android:label="@string/search_locations_title"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim">
+        <action
+            android:id="@+id/openLocationDetails"
+            app:destination="@+id/navigationLocationDetails"
+            app:enterAnim="@anim/in_left"
+            app:exitAnim="@anim/out_left"
+            app:popEnterAnim="@anim/in_right"
+            app:popExitAnim="@anim/out_right" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_location_details"
-        android:name="com.demo.metaweather.screens.details.LocationDetailsFragment"/>
+        android:id="@+id/navigationLocationDetails"
+        android:name="com.demo.metaweather.screens.details.LocationDetailsFragment"
+        android:label="{locationName}"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim">
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+        <argument
+            android:name="whereOnEarthId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

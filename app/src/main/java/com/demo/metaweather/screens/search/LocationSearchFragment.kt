@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
@@ -80,8 +81,12 @@ class LocationSearchFragment : Fragment() {
     }
 
     private fun locationClickListener(locationItem: LocationItem) {
-        Toast.makeText(requireContext(), "location ${locationItem.name} clicked", Toast.LENGTH_LONG)
-            .show()
+        findNavController().navigate(
+            LocationSearchFragmentDirections.openLocationDetails(
+                locationName = locationItem.name,
+                whereOnEarthId = locationItem.whereOnEarthId
+            )
+        )
     }
 
     private fun showLoadingResults() = with(content) {

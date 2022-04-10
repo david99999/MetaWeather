@@ -4,4 +4,6 @@
     <string name="unexpected_error">Unexpected error: %s</string>
     <string name="start_searching_for_locations">Start searching for locations!</string>
     <string name="no_results">No results for your search criteria</string>
+    <string name="search_locations_title">Search Locations</string>
+    <string name="location_details_title">Location Details</string>
 </resources>

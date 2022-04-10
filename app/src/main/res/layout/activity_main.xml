@@ -7,7 +7,7 @@
     tools:context=".screens.WeatherExplorerActivity">
 
     <fragment
-        android:id="@+id/nav_host_fragment_activity_main"
+        android:id="@+id/navHostWeatherExplorer"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
