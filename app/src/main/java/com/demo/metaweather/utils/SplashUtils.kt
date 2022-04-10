@@ -8,7 +8,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.demo.metaweather.R
-import java.util.concurrent.TimeUnit
 
 const val SPLASH_SECONDS = 2L
 const val DEFAULT_SPLASH_OUT_MILLISECONDS = 500L

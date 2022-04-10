@@ -2,4 +2,6 @@
     <string name="app_name">MetaWeather</string>
     <string name="location_search_query">Enter the name of a location</string>
     <string name="unexpected_error">Unexpected error: %s</string>
+    <string name="start_searching_for_locations">Start searching for locations!</string>
+    <string name="no_results">No results for your search criteria</string>
 </resources>

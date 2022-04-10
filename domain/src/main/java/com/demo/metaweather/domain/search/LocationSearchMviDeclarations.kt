@@ -19,13 +19,14 @@ import javax.inject.Inject
 sealed class LocationsScreenState {
     data class ShowingLocationResults(val locations: List<LocationItem>) : LocationsScreenState()
     object LoadingLocations : LocationsScreenState()
+    data class EmptyLocationsList(val noResults: Boolean) : LocationsScreenState()
 }
 
 data class LoadLocationsEffect(val locationName: String)
 
 sealed class LocationsActions {
     data class LoadLocationsByName(val locationName: String) : LocationsActions()
-    data class ShowLocationsAction(val cities: List<LocationItem>) : LocationsActions()
+    data class ShowLocationsAction(val locations: List<LocationItem>) : LocationsActions()
     data class Error(val error: Exception) : LocationsActions()
 }
 
@@ -59,9 +60,17 @@ class LocationsUpdater :
         currentState: LocationsScreenState
     ): NextState<LocationsScreenState, LoadLocationsEffect, LocationEvents> {
         return when (action) {
-            is ShowLocationsAction -> NextState(ShowingLocationResults(action.cities))
+            is ShowLocationsAction -> showLocations(action)
             is LoadLocationsByName -> loadLocationByName(action, currentState)
             is Error -> handleErrorSearchingLocations(action, currentState)
+        }
+    }
+
+    private fun showLocations(action: ShowLocationsAction): NextState<LocationsScreenState, LoadLocationsEffect, LocationEvents> {
+        return if (action.locations.isEmpty()) {
+            NextState(LocationsScreenState.EmptyLocationsList(noResults = true))
+        } else {
+            NextState(ShowingLocationResults(action.locations))
         }
     }
 

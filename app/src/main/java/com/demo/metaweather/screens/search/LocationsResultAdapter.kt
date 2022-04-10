@@ -13,8 +13,9 @@ import com.demo.metaweather.domain.models.LocationItem
 class LocationsResultAdapter(
     private val locations: List<LocationItem>,
     private val clickListener: (LocationItem) -> Unit
-) :
-    Adapter<LocationResultViewHolder>() {
+) : Adapter<LocationResultViewHolder>() {
+
+    override fun getItemCount() = locations.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): LocationResultViewHolder {
         val view = ItemLocationResultBinding.inflate(
@@ -22,24 +23,16 @@ class LocationsResultAdapter(
             viewGroup,
             false
         )
-
         return LocationResultViewHolder(view.root)
     }
 
     override fun onBindViewHolder(viewHolder: LocationResultViewHolder, position: Int) {
-        viewHolder.textView.text = locations[position].name
-        viewHolder.itemView.setOnClickListener { clickListener(locations[position]) }
+        val location = locations[position]
+        viewHolder.textView.text = location.name
+        viewHolder.itemView.setOnClickListener { clickListener(location) }
     }
-
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = locations.size
-
 }
 
-/**
- * Provide a reference to the type of views that you are using
- * (custom ViewHolder).
- */
 class LocationResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val textView: TextView = view.findViewById(R.id.locationTitle)
 }

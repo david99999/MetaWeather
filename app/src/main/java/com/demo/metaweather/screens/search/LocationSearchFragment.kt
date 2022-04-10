@@ -1,7 +1,11 @@
 package com.demo.metaweather.screens.search
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -42,7 +46,7 @@ class LocationSearchFragment : Fragment() {
     private fun handleLocationsEvents(event: LocationEvents) {
         if (event is LocationEvents.ErrorLoadingLocations) {
             Snackbar.make(
-                content.root,
+                content.locationSearchResults,
                 getString(R.string.unexpected_error, event.error.localizedMessage),
                 Snackbar.LENGTH_LONG
             ).show()
@@ -53,7 +57,14 @@ class LocationSearchFragment : Fragment() {
         when (screenState) {
             is LocationsScreenState.LoadingLocations -> showLoadingResults()
             is LocationsScreenState.ShowingLocationResults -> showLocationResults(screenState.locations)
+            is LocationsScreenState.EmptyLocationsList -> showEmptyState(screenState)
         }
+    }
+
+    private fun showEmptyState(emptyState: LocationsScreenState.EmptyLocationsList) = with(content) {
+        locationSearchLoading.isVisible = false
+        locationSearchResults.isVisible = true
+        locationSearchResults.adapter = EmptyLocationsAdapter(emptyState.noResults)
     }
 
     private fun showLocationResults(locations: List<LocationItem>) = with(content) {

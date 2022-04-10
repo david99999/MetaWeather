@@ -6,6 +6,8 @@ plugins {
     id 'kotlinx-serialization'
     id 'androidx.navigation.safeargs.kotlin'
 }
+apply from: '../ktlint.gradle'
+
 
 android {
     compileSdk 31
