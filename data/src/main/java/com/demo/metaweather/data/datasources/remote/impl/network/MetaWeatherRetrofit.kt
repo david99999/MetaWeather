@@ -13,7 +13,7 @@ object MetaWeatherRetrofit {
 
     fun getMetaWeatherApi(): MetaWeatherNetworkApi {
         return Retrofit.Builder()
-            .baseUrl(Constants.WEATHER_SERVER_BASE_URL)
+            .baseUrl(Constants.WEATHER_SERVER_API)
             .addConverterFactory(json.asConverterFactory(jsonContentType))
             .build()
             .create(MetaWeatherNetworkApi::class.java)

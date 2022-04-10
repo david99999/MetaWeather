@@ -29,4 +29,25 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
+
+    <style name="Text_S" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/text_s</item>
+    </style>
+    <style name="Text_L" parent="Text_S">
+        <item name="android:textSize">@dimen/text_l</item>
+    </style>
+    <style name="Text_L_BOLD" parent="Text_L">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Text_XL" parent="Text_L">
+        <item name="android:textSize">@dimen/text_xl</item>
+    </style>
+    <style name="Text_XXL" parent="Text_XL">
+        <item name="android:textSize">@dimen/text_xxl</item>
+    </style>
+    <style name="Text_XXL_BOLD" parent="Text_XXL">
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/padding_text_xxl</item>
+    </style>
 </resources>

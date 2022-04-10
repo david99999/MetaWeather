@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="location_result_text_padding">5dp</dimen>
+    <dimen name="text_xxl">55sp</dimen>
+    <dimen name="padding_text_xxl">25dp</dimen>
+    <dimen name="text_xl">45sp</dimen>
+    <dimen name="text_l">25sp</dimen>
+    <dimen name="text_s">15sp</dimen>
 </resources>

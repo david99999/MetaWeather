@@ -8,4 +8,6 @@
     <string name="location_details_title">Location Details</string>
     <string name="weather_icon_description">Weather Icon</string>
     <string name="temperature_range">Min %1$.2f°C - Max %2$.2f°C</string>
+    <string name="location_and_parent"> %1$s - %2$s</string>
+    <string name="temperature_value">%.2f°C</string>
 </resources>
