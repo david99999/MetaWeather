@@ -12,6 +12,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.demo.metaweather.R
 import com.demo.metaweather.databinding.FragmentLocationSearchBinding
 import com.demo.metaweather.domain.models.LocationItem
@@ -36,6 +40,7 @@ class LocationSearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         content = FragmentLocationSearchBinding.inflate(inflater, parent, false)
+        content.locationSearchResults.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             launch { locationsViewModel.getUiStateFlow().collect { updateUiState(it) } }
             launch { locationsViewModel.getEventsFlow().collect { handleLocationsEvents(it) } }
@@ -61,11 +66,12 @@ class LocationSearchFragment : Fragment() {
         }
     }
 
-    private fun showEmptyState(emptyState: LocationsScreenState.EmptyLocationsList) = with(content) {
-        locationSearchLoading.isVisible = false
-        locationSearchResults.isVisible = true
-        locationSearchResults.adapter = EmptyLocationsAdapter(emptyState.noResults)
-    }
+    private fun showEmptyState(emptyState: LocationsScreenState.EmptyLocationsList) =
+        with(content) {
+            locationSearchLoading.isVisible = false
+            locationSearchResults.isVisible = true
+            locationSearchResults.adapter = EmptyLocationsAdapter(emptyState.noResults)
+        }
 
     private fun showLocationResults(locations: List<LocationItem>) = with(content) {
         locationSearchLoading.isVisible = false

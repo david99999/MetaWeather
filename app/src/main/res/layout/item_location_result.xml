@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/selectableItemBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/locationIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/location_result_text_padding"
+        android:src="@drawable/ic_location_result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/locationTitle"
         style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/location_result_text_padding"
-        android:padding="@dimen/location_result_text_padding"
-        app:drawableStartCompat="@drawable/ic_location_result"
+        android:paddingStart="@dimen/location_result_text_padding"
+        android:paddingTop="@dimen/location_result_text_padding"
+        app:layout_constraintStart_toEndOf="@+id/locationIcon"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="London" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/locationType"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/location_result_text_padding"
+        android:paddingBottom="@dimen/location_result_text_padding"
+        app:layout_constraintStart_toEndOf="@+id/locationIcon"
+        app:layout_constraintTop_toBottomOf="@+id/locationTitle"
+        tools:text="London" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

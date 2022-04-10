@@ -43,7 +43,11 @@ class LocationsProcessor @Inject constructor(private val weatherRepository: Weat
                     ShowLocationsAction(
                         weatherRepository.searchLocationsByName(effect.locationName)
                             .map { dto ->
-                                LocationItem(dto.title.orEmpty(), dto.whereOnEarthId ?: 0)
+                                LocationItem(
+                                    name = dto.title.orEmpty(),
+                                    type = dto.locationType.orEmpty(),
+                                    whereOnEarthId = dto.whereOnEarthId ?: 0
+                                )
                             }
                     )
                 )

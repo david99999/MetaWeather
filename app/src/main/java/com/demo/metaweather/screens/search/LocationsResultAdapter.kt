@@ -28,11 +28,13 @@ class LocationsResultAdapter(
 
     override fun onBindViewHolder(viewHolder: LocationResultViewHolder, position: Int) {
         val location = locations[position]
-        viewHolder.textView.text = location.name
+        viewHolder.name.text = location.name
+        viewHolder.type.text = location.type
         viewHolder.itemView.setOnClickListener { clickListener(location) }
     }
 }
 
 class LocationResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val textView: TextView = view.findViewById(R.id.locationTitle)
+    val name: TextView = view.findViewById(R.id.locationTitle)
+    val type: TextView = view.findViewById(R.id.locationType)
 }
