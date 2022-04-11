@@ -54,7 +54,7 @@ class ForecastAdapter(
             containerCard.setCardBackgroundColor(
                 ContextCompat.getColor(
                     containerCard.context,
-                    if (selectedForecast == forecast) R.color.grayLight else R.color.white
+                    if (selectedForecast == forecast) R.color.blue_200_light else R.color.white
                 )
             )
         }
