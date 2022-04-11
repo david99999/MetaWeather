@@ -17,7 +17,7 @@ import com.demo.metaweather.utils.DateFormatter
 import com.demo.metaweather.utils.ImageLoader
 
 /**
- * RecyclerView adapter for the forecasts of an specific location weather details,
+ * RecyclerView adapter for the forecasts of a specific location weather details,
  * it keeps track of the selected forecast so its background can be highlighted
  */
 class ForecastAdapter(

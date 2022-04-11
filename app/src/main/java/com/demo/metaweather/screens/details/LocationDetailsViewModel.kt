@@ -20,6 +20,7 @@ class LocationDetailsViewModel @Inject constructor(locationDetailsProcessor: Loc
     MviViewModel<LocationDetailActions, LocationDetailsState, LocationDetailsState, LoadLocationDetailsEffect, LocationDetailEvents>(
         stateUpdater = LocationDetailsUpdater(),
         effectsProcessor = locationDetailsProcessor,
+        cancelEffectsWhenNewOnes = true,
         stateMapper = LocationDetailsMapper(),
         initialState = LocationDetailsState.LoadingDetails
     )

@@ -4,6 +4,7 @@ import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
 open class MviViewModel<Action : Any, State : Any, UiState : Any, Effect : Any, Event : Any>(
     private val stateUpdater: StateUpdater<State, Action, Effect, Event>,
     private val effectsProcessor: EffectsProcessor<Effect, Action>,
+    private val cancelEffectsWhenNewOnes: Boolean = false,
     private val stateMapper: StateMapper<State, UiState>,
     initialState: State,
     initialEffects: Set<Effect> = emptySet()
@@ -65,6 +67,10 @@ open class MviViewModel<Action : Any, State : Any, UiState : Any, Effect : Any, 
 
     final override fun dispatchEffects(effects: Set<Effect>) {
         effects.forEach { effect ->
+            if (cancelEffectsWhenNewOnes) {
+                viewModelScope.coroutineContext.cancelChildren()
+            }
+            viewModelScope.coroutineContext.cancelChildren()
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     effectsProcessor.processEffect(effect).collect { resultAction ->
