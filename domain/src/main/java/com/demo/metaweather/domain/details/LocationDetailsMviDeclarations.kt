@@ -24,6 +24,9 @@ data class LoadLocationDetailsEffect(val whereOnEarthId: Int)
 
 sealed class LocationDetailActions {
     data class LoadLocationWeather(val whereOnEarthId: Int) : LocationDetailActions()
+    data class SelectForecast(val consolidatedWeather: ConsolidatedWeather) :
+        LocationDetailActions()
+
     data class ShowLocationWeather(val locationWeather: LocationWeather) : LocationDetailActions()
     data class Error(val error: Exception) : LocationDetailActions()
 }
@@ -57,15 +60,14 @@ class LocationDetailsProcessor @Inject constructor(private val weatherRepository
                                 locationParent = it.locationParentDTO?.title.orEmpty(),
                                 title = it.title.orEmpty()
                             )
-                        })
+                        }
+                    )
                 )
             } catch (ex: Exception) {
                 emit(LocationDetailActions.Error(ex))
             }
         }
-
 }
-
 
 class LocationDetailsUpdater :
     StateUpdater<LocationDetailsState, LocationDetailActions, LoadLocationDetailsEffect, LocationDetailEvents> {
@@ -76,7 +78,19 @@ class LocationDetailsUpdater :
         return when (action) {
             is LocationDetailActions.LoadLocationWeather -> loadLocationWeather(action)
             is LocationDetailActions.ShowLocationWeather -> showLocationWeather(action)
+            is LocationDetailActions.SelectForecast -> selectForecast(action, currentState)
             is LocationDetailActions.Error -> handleErrorLoadingDetails(action)
+        }
+    }
+
+    private fun selectForecast(
+        action: LocationDetailActions.SelectForecast,
+        currentState: LocationDetailsState
+    ): NextState<LocationDetailsState, LoadLocationDetailsEffect, LocationDetailEvents> {
+        return if (currentState is LocationDetailsState.LocationWeatherDetails) {
+            NextState(currentState.copy(selectedWeatherDetails = action.consolidatedWeather))
+        } else {
+            NextState(currentState)
         }
     }
 
@@ -102,9 +116,7 @@ class LocationDetailsUpdater :
             events = setOf(LocationDetailEvents.ErrorLoadingLocationDetails(action.error))
         )
     }
-
 }
-
 
 class LocationDetailsMapper : StateMapper<LocationDetailsState, LocationDetailsState> {
     override fun mapToUiState(state: LocationDetailsState): LocationDetailsState {

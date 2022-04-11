@@ -34,6 +34,12 @@
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/text_s</item>
     </style>
+    <style name="Text_M" parent="Text_S">
+        <item name="android:textSize">@dimen/text_m</item>
+    </style>
+    <style name="Text_M_BOLD" parent="Text_M">
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="Text_L" parent="Text_S">
         <item name="android:textSize">@dimen/text_l</item>
     </style>

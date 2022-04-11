@@ -5,5 +5,9 @@
     <dimen name="padding_text_xxl">25dp</dimen>
     <dimen name="text_xl">45sp</dimen>
     <dimen name="text_l">25sp</dimen>
+    <dimen name="text_m">20sp</dimen>
     <dimen name="text_s">15sp</dimen>
+    <dimen name="card_corners">7dp</dimen>
+    <dimen name="card_elevation">3dp</dimen>
+    <dimen name="location_details_container_padding">20dp</dimen>
 </resources>

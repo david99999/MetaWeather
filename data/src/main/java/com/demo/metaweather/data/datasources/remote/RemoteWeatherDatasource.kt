@@ -8,5 +8,4 @@ interface RemoteWeatherDatasource {
     suspend fun searchLocationsByName(locationName: String): List<LocationAnswerDTO>
 
     suspend fun getWeatherForLocation(whereOnEarthId: Int): LocationWeatherDTO
-
 }

@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.demo.metaweather.R
 import com.demo.metaweather.databinding.FragmentLocationSearchBinding
 import com.demo.metaweather.domain.models.LocationItem
@@ -38,7 +36,6 @@ class LocationSearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         content = FragmentLocationSearchBinding.inflate(inflater, parent, false)
-        content.locationSearchResults.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             launch { locationsViewModel.getUiStateFlow().collect { updateUiState(it) } }
             launch { locationsViewModel.getEventsFlow().collect { handleLocationsEvents(it) } }

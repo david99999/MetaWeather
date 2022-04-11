@@ -2,7 +2,7 @@ package com.demo.metaweather.domain.models
 
 data class LocationWeather(
 
-    val forecasts: List<ConsolidatedWeather> ,
+    val forecasts: List<ConsolidatedWeather>,
 
     val locationParent: String,
 

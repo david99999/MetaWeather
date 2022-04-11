@@ -3,6 +3,7 @@ package com.demo.metaweather.utils
 import android.widget.ImageView
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.demo.metaweather.R
 import javax.inject.Inject
 import coil.ImageLoader as CoilImageLoader
 
@@ -20,6 +21,7 @@ class CoilImageLoader @Inject constructor() : ImageLoader {
 
         val request = ImageRequest.Builder(imageView.context)
             .data(path)
+            .placeholder(R.drawable.ic_image_placeholder)
             .target(imageView)
             .build()
 
