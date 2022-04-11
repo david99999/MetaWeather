@@ -37,11 +37,11 @@ dependencies {
     implementation(project(":mvi"))
     implementation(project(":data"))
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+
+    // We only need the @Inject annotation, no need to load entire Dagger dependencies
+    implementation 'javax.inject:javax.inject:1'
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.12.3"
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
-    implementation "com.google.dagger:hilt-android:2.38.1"
-
 }
