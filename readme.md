@@ -5,7 +5,7 @@ Demo application showcasing a functional reactive approach, focusing on isolatin
 Inspired by [mobius] and other reactive state management frameworks
 
 # Demo
-![alt text](https://github.com/david99999/MetaWeather/blob/master/assets/demo.gif "Demo GIF")
+<img src="https://github.com/david99999/MetaWeather/blob/master/assets/demo.gif" width=400 />
 
 ### What's inside this repo
 
