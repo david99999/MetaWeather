@@ -1,7 +1,5 @@
 package com.demo.metaweather.di
 
-import com.demo.metaweather.data.datasources.remote.RemoteWeatherDatasource
-import com.demo.metaweather.data.datasources.remote.impl.RemoteWeatherDatasourceImpl
 import com.demo.metaweather.data.repositories.WeatherRepository
 import com.demo.metaweather.data.repositories.WeatherRepositoryImpl
 import com.demo.metaweather.utils.CoilImageLoader
@@ -13,11 +11,12 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+/**
+ * D.I. module for providing any other framework-dependant classes
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class FrameworkModule {
-    @Binds
-    abstract fun bindRemoteWeatherDataSource(remoteWeatherDatasource: RemoteWeatherDatasourceImpl): RemoteWeatherDatasource
 
     @Binds
     abstract fun bindWeatherRepository(weatherRepository: WeatherRepositoryImpl): WeatherRepository

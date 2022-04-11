@@ -10,6 +10,9 @@ import com.demo.metaweather.R
 import com.demo.metaweather.databinding.ItemLocationResultBinding
 import com.demo.metaweather.domain.models.LocationItem
 
+/**
+ * RecyclerView adapter for the results of a location search
+ */
 class LocationsResultAdapter(
     private val locations: List<LocationItem>,
     private val clickListener: (LocationItem) -> Unit

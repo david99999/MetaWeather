@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.demo.metaweather.R
 import com.demo.metaweather.databinding.ItemEmptyLocationBinding
 
+/**
+ * Adapter for the showing an empty state, it will show the initial empty state message
+ * and the empty state when the search didn't returned any results
+ */
 class EmptyLocationsAdapter(private val noResults: Boolean) : Adapter<EmptyLocationsViewHolder>() {
 
     override fun getItemCount() = 1

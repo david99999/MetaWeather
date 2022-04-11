@@ -10,6 +10,10 @@ import com.demo.metaweather.utils.showSplash
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
+/**
+ * Activity used for searching locations and showing its weather details,
+ * it uses Jetpack navigation for switching between screens
+ */
 @AndroidEntryPoint
 class WeatherExplorerActivity : AppCompatActivity() {
 
@@ -22,6 +26,9 @@ class WeatherExplorerActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
+    /**
+     * Provides up click navigation on the navController
+     */
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

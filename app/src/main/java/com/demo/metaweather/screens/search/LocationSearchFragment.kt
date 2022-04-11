@@ -23,6 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment providing a search for locations, it also displays a list of search results
+ * and navigates to the location weather details once the user clicks a list item
+ */
 @AndroidEntryPoint
 class LocationSearchFragment : Fragment() {
 
@@ -36,6 +40,7 @@ class LocationSearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         content = FragmentLocationSearchBinding.inflate(inflater, parent, false)
+        // start listening to UI state changes
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             launch { locationsViewModel.getUiStateFlow().collect { updateUiState(it) } }
             launch { locationsViewModel.getEventsFlow().collect { handleLocationsEvents(it) } }
@@ -43,16 +48,10 @@ class LocationSearchFragment : Fragment() {
         return content.root
     }
 
-    private fun handleLocationsEvents(event: LocationEvents) {
-        if (event is LocationEvents.ErrorLoadingLocations) {
-            Snackbar.make(
-                content.locationSearchResults,
-                getString(R.string.unexpected_error, event.error.localizedMessage),
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
-    }
-
+    /**
+     * This method will be called everytime something changes on the UI state,
+     * so we need to update the UI accordingly to the state update
+     */
     private fun updateUiState(screenState: LocationsScreenState) {
         when (screenState) {
             is LocationsScreenState.LoadingLocations -> showLoadingResults()
@@ -61,6 +60,9 @@ class LocationSearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Shows initial empty message and the empty result message
+     */
     private fun showEmptyState(emptyState: LocationsScreenState.EmptyLocationsList) =
         with(content) {
             locationSearchLoading.isVisible = false
@@ -68,12 +70,18 @@ class LocationSearchFragment : Fragment() {
             locationSearchResults.adapter = EmptyLocationsAdapter(emptyState.noResults)
         }
 
+    /**
+     * Shows the list of results in the recyclerView
+     */
     private fun showLocationResults(locations: List<LocationItem>) = with(content) {
         locationSearchLoading.isVisible = false
         locationSearchResults.isVisible = true
         locationSearchResults.adapter = LocationsResultAdapter(locations, ::locationClickListener)
     }
 
+    /**
+     * Called when the user taps on a location result item
+     */
     private fun locationClickListener(locationItem: LocationItem) {
         findNavController().navigate(
             LocationSearchFragmentDirections.openLocationDetails(
@@ -88,6 +96,9 @@ class LocationSearchFragment : Fragment() {
         locationSearchResults.isVisible = false
     }
 
+    /**
+     * Setting up the search view in the toolbar
+     */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.location_search_menu, menu)
         val searchView = menu.findItem(R.id.locationSearchMenuItem).actionView as SearchView
@@ -99,9 +110,23 @@ class LocationSearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                // Tell the ViewModel to start a location search
                 locationsViewModel.dispatchAction(LocationsActions.LoadLocationsByName(newText))
                 return true
             }
         })
+    }
+
+    /**
+     * Shows error messages
+     */
+    private fun handleLocationsEvents(event: LocationEvents) {
+        if (event is LocationEvents.ErrorLoadingLocations) {
+            Snackbar.make(
+                content.locationSearchResults,
+                getString(R.string.unexpected_error, event.error.localizedMessage),
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 }

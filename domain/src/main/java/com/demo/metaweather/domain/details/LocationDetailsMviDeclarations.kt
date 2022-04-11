@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 import javax.inject.Inject
 
+/**
+ * Represents the possible states of the Location Weather Details screen
+ */
 sealed class LocationDetailsState {
     object LoadingDetails : LocationDetailsState()
     data class LocationWeatherDetails(
@@ -20,8 +23,14 @@ sealed class LocationDetailsState {
     ) : LocationDetailsState()
 }
 
+/**
+ * To be used when requesting the load of location details
+ */
 data class LoadLocationDetailsEffect(val whereOnEarthId: Int)
 
+/**
+ * Represents the actions executed on the Details screen
+ */
 sealed class LocationDetailActions {
     data class LoadLocationWeather(val whereOnEarthId: Int) : LocationDetailActions()
     data class SelectForecast(val consolidatedWeather: ConsolidatedWeather) :
@@ -31,44 +40,56 @@ sealed class LocationDetailActions {
     data class Error(val error: Exception) : LocationDetailActions()
 }
 
+/**
+ * Used for reporting to the UI that some event happened, mostly error notifying
+ */
 sealed class LocationDetailEvents {
     data class ErrorLoadingLocationDetails(val error: Exception) : LocationDetailEvents()
 }
 
+/**
+ * Executes the long running tasks, every action performed from the processor will be running outside the UI thread
+ */
 class LocationDetailsProcessor @Inject constructor(private val weatherRepository: WeatherRepository) :
     EffectsProcessor<LoadLocationDetailsEffect, LocationDetailActions> {
     override suspend fun processEffect(effect: LoadLocationDetailsEffect): Flow<LocationDetailActions> =
         flow {
             try {
-                emit(
-                    LocationDetailActions.ShowLocationWeather(
-                        weatherRepository.getWeatherForLocation(
-                            effect.whereOnEarthId
-                        ).let {
-                            val forecasts = it.consolidatedWeatherDTO.map { dto ->
-                                ConsolidatedWeather(
-                                    weatherStateName = dto.weatherStateName.orEmpty(),
-                                    weatherStateAbbr = dto.weatherStateAbbr.orEmpty(),
-                                    applicableDate = dto.applicableDate.orEmpty(),
-                                    minTemp = dto.minTemp ?: 0.toDouble(),
-                                    maxTemp = dto.maxTemp ?: 0.toDouble(),
-                                    theTemp = dto.theTemp ?: 0.toDouble()
-                                )
-                            }
-                            LocationWeather(
-                                forecasts = forecasts,
-                                locationParent = it.locationParentDTO?.title.orEmpty(),
-                                title = it.title.orEmpty()
-                            )
-                        }
+                // Load from the repository the location details, then convert the DTO
+                // returned from the repository onto the domain model expected on the screen state
+                val locationWeather = weatherRepository.getWeatherForLocation(
+                    effect.whereOnEarthId
+                ).let {
+                    val forecasts = it.consolidatedWeatherDTO.map { dto ->
+                        ConsolidatedWeather(
+                            weatherStateName = dto.weatherStateName.orEmpty(),
+                            weatherStateAbbr = dto.weatherStateAbbr.orEmpty(),
+                            applicableDate = dto.applicableDate.orEmpty(),
+                            minTemp = dto.minTemp ?: 0.toDouble(),
+                            maxTemp = dto.maxTemp ?: 0.toDouble(),
+                            theTemp = dto.theTemp ?: 0.toDouble()
+                        )
+                    }
+                    LocationWeather(
+                        forecasts = forecasts,
+                        locationParent = it.locationParentDTO?.title.orEmpty(),
+                        title = it.title.orEmpty()
                     )
-                )
+                }
+                // finish the long running task reporting the weather to the
+                // [LocationDetailsUpdater] so it can set the data on the Screen State
+                emit(LocationDetailActions.ShowLocationWeather(locationWeather))
             } catch (ex: Exception) {
                 emit(LocationDetailActions.Error(ex))
             }
         }
 }
 
+/**
+ * This is the only element that mutates the UI state,
+ * so any action defined for the Details screen will be handled here,
+ * after an action mutates the state its observers will be notified and will update the UI accordingly
+ */
 class LocationDetailsUpdater :
     StateUpdater<LocationDetailsState, LocationDetailActions, LoadLocationDetailsEffect, LocationDetailEvents> {
     override fun processNewAction(
@@ -83,6 +104,9 @@ class LocationDetailsUpdater :
         }
     }
 
+    /**
+     * Executed when the used clicked a forecast item, so we need to set it as the selected forecast on the UI state
+     */
     private fun selectForecast(
         action: LocationDetailActions.SelectForecast,
         currentState: LocationDetailsState

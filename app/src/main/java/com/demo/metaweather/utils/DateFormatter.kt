@@ -5,6 +5,9 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
+/**
+ * Parses dates returned from Metaweather API into human readable dates
+ */
 interface DateFormatter {
     fun getLongDateFromString(date: String): String
 }

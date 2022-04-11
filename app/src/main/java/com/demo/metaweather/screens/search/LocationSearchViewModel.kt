@@ -12,6 +12,10 @@ import com.general.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Location Search screen,
+ * it puts together all the elements that process and updates the UI state
+ */
 @HiltViewModel
 class LocationSearchViewModel @Inject constructor(locationsProcessor: LocationsProcessor) :
     MviViewModel<LocationsActions, LocationsScreenState, LocationsScreenState, LoadLocationsEffect, LocationEvents>(

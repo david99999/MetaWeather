@@ -11,5 +11,5 @@ object Constants {
     const val LOCATION_SEARCH = "location/search/"
     private const val WEATHER_ICON_PREFIX = WEATHER_SERVER_BASE_URL + "static/img/weather/"
 
-    fun WeatherIcon(weatherState: String) = "$WEATHER_ICON_PREFIX$weatherState.svg"
+    fun weatherIcon(weatherState: String) = "$WEATHER_ICON_PREFIX$weatherState.svg"
 }

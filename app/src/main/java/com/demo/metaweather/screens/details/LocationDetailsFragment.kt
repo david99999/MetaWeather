@@ -21,11 +21,16 @@ import com.demo.metaweather.domain.models.ConsolidatedWeather
 import com.demo.metaweather.utils.DateFormatter
 import com.demo.metaweather.utils.ImageLoader
 import com.demo.metaweather.utils.ensureContentCentered
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Fragment displaying the locations weather details,
+ * it also shows a list of the weather forecast for the current and next 4 days
+ */
 @AndroidEntryPoint
 class LocationDetailsFragment : Fragment() {
 
@@ -39,10 +44,14 @@ class LocationDetailsFragment : Fragment() {
     @Inject
     lateinit var imageLoader: ImageLoader
 
+    /**
+     * Adapter for the recyclerView
+     */
     private var forecastAdapter: ForecastAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         content = FragmentLocationDetailsBinding.inflate(inflater, parent, false)
+        // start listening for UI state changes
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             launch { detailsViewModel.getUiStateFlow().collect { updateUiState(it) } }
             launch { detailsViewModel.getEventsFlow().collect { handleDetailsEvents(it) } }
@@ -54,6 +63,10 @@ class LocationDetailsFragment : Fragment() {
         return content.root
     }
 
+    /**
+     * This method will be called everytime the UI state has changed,
+     * so we update the UI content accordingly to the new values
+     */
     private fun updateUiState(state: LocationDetailsState) {
         when (state) {
             LocationDetailsState.LoadingDetails -> toggleLoadingDetails(true)
@@ -61,6 +74,9 @@ class LocationDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * Shows the weather details on every view of the content
+     */
     private fun showLocationWeather(state: LocationWeatherDetails) = with(content) {
         toggleLoadingDetails(false)
         locationNameAndParent.text = getString(
@@ -75,7 +91,7 @@ class LocationDetailsFragment : Fragment() {
         locationStateName.text = state.selectedWeatherDetails.weatherStateName
 
         imageLoader.loadImageIntoImageView(
-            Constants.WeatherIcon(state.selectedWeatherDetails.weatherStateAbbr),
+            Constants.weatherIcon(state.selectedWeatherDetails.weatherStateAbbr),
             weatherIcon
         )
 
@@ -87,6 +103,10 @@ class LocationDetailsFragment : Fragment() {
         setupWeatherForecast(state)
     }
 
+    /**
+     * Setup the forecasts recyclerview depending if we need to
+     * create the adapter or only update the selected forecast
+     */
     private fun setupWeatherForecast(state: LocationWeatherDetails) {
         if (forecastAdapter == null) {
             forecastAdapter = ForecastAdapter(
@@ -103,6 +123,10 @@ class LocationDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * Dispatches an action for setting the clicked forecast item
+     * as the selected forecast on the UI content
+     */
     private fun forecastClickListener(consolidatedWeather: ConsolidatedWeather) {
         detailsViewModel.dispatchAction(LocationDetailActions.SelectForecast(consolidatedWeather))
     }
@@ -112,9 +136,16 @@ class LocationDetailsFragment : Fragment() {
         content.locationDetailsContainer.isVisible = !show
     }
 
+    /**
+     * Used when an error happens, so we can notify the user something went wrong
+     */
     private fun handleDetailsEvents(event: LocationDetailEvents) {
         if (event is LocationDetailEvents.ErrorLoadingLocationDetails) {
-            event.error.printStackTrace()
+            Snackbar.make(
+                content.root,
+                getString(R.string.unexpected_error, event.error.localizedMessage),
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 }

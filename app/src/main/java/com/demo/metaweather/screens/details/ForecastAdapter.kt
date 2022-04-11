@@ -16,15 +16,19 @@ import com.demo.metaweather.domain.models.ConsolidatedWeather
 import com.demo.metaweather.utils.DateFormatter
 import com.demo.metaweather.utils.ImageLoader
 
+/**
+ * RecyclerView adapter for the forecasts of an specific location weather details,
+ * it keeps track of the selected forecast so its background can be highlighted
+ */
 class ForecastAdapter(
-    private val forecast: List<ConsolidatedWeather>,
+    private val forecasts: List<ConsolidatedWeather>,
     private val clickListener: (ConsolidatedWeather) -> Unit,
     var selectedForecast: ConsolidatedWeather,
     private val dateFormatter: DateFormatter,
     private val imageLoader: ImageLoader
 ) : Adapter<ForecastItemViewHolder>() {
 
-    override fun getItemCount() = forecast.size
+    override fun getItemCount() = forecasts.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ForecastItemViewHolder {
         val view = ItemForecastWeatherBinding.inflate(
@@ -37,11 +41,11 @@ class ForecastAdapter(
 
     override fun onBindViewHolder(viewHolder: ForecastItemViewHolder, position: Int) =
         with(viewHolder) {
-            val forecast = forecast[position]
+            val forecast = forecasts[position]
             dateText.text = dateFormatter.getLongDateFromString(forecast.applicableDate)
             stateName.text = forecast.weatherStateName
             imageLoader.loadImageIntoImageView(
-                Constants.WeatherIcon(forecast.weatherStateAbbr),
+                Constants.weatherIcon(forecast.weatherStateAbbr),
                 stateIcon
             )
             temperature.text =

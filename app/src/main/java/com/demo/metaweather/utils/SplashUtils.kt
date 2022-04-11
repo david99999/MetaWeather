@@ -22,7 +22,7 @@ fun Activity.showSplash(
     splashDurationMilliSeconds: Long,
     outDurationMilliSeconds: Long = DEFAULT_SPLASH_OUT_MILLISECONDS
 ) {
-    if (savedInstanceState == null) {
+    if (savedInstanceState == null) { // avoid showing splash on activity recreation
         val splashScreen = installSplashScreen()
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             // smooth animation from fully visible (1F) to fully invisible (0F)
@@ -33,7 +33,7 @@ fun Activity.showSplash(
             fadeOut.doOnEnd { splashScreenView.remove() }
             fadeOut.start()
         }
-    } else {
+    } else { // on activity recreation we set the normal theme, otherwise activity crashes
         setTheme(R.style.Theme_MetaWeather)
     }
 }

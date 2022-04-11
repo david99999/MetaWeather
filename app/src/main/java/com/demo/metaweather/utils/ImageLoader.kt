@@ -7,6 +7,9 @@ import com.demo.metaweather.R
 import javax.inject.Inject
 import coil.ImageLoader as CoilImageLoader
 
+/**
+ * Abstraction for loading images, doesn't care which image loading library is used
+ */
 interface ImageLoader {
     fun loadImageIntoImageView(path: String, imageView: ImageView)
 }
