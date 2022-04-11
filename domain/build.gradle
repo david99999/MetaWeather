@@ -1,6 +1,9 @@
+import com.demo.dependencies.Dependencies // This centralizes the dependency versions
+
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'com.demo.dependencies.Dependencies'
 }
 
 apply from: '../ktlint.gradle'
@@ -37,11 +40,11 @@ dependencies {
     implementation(project(":mvi"))
     implementation(project(":data"))
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation Dependencies.CoroutinesCore
 
     // We only need the @Inject annotation, no need to load entire Dagger dependencies
-    implementation 'javax.inject:javax.inject:1'
+    implementation Dependencies.JavaXInject
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "io.mockk:mockk:1.12.3"
+    testImplementation Dependencies.Junit
+    testImplementation Dependencies.Mockk
 }

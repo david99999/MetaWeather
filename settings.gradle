@@ -1,4 +1,4 @@
 rootProject.name = "MetaWeather"
-include ':app', ':mvi'
-include ':domain'
-include ':data'
+includeBuild("dependencies")
+include ':app', ':mvi', ':domain', ':data'
+
